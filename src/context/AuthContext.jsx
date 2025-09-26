@@ -9,8 +9,8 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = storage.get("token");
-    const storedUser = storage.get("user");
+    const storedToken = storage.get("token") || storage.get("sessionToken");
+    const storedUser = storage.get("user") || storage.get("sessionUser");
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -19,11 +19,21 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const login = (userData, authToken) => {
+  const login = (userData, authToken, rememberMe = false) => {
     setUser(userData);
     setToken(authToken);
-    storage.set("user", userData);
-    storage.set("token", authToken);
+
+    if (rememberMe) {
+      storage.set("user", userData);
+      storage.set("token", authToken);
+      storage.remove("sessionUser");
+      storage.remove("sessionToken");
+    } else {
+      storage.set("sessionUser", userData);
+      storage.set("sessionToken", authToken);
+      storage.remove("user");
+      storage.remove("token");
+    }
   };
 
   const logout = () => {
@@ -31,11 +41,18 @@ export function AuthProvider({ children }) {
     setToken(null);
     storage.remove("user");
     storage.remove("token");
+    storage.remove("sessionUser");
+    storage.remove("sessionToken");
   };
 
   const updateUser = (userData) => {
     setUser(userData);
-    storage.set("user", userData);
+    const isRemembered = storage.get("token");
+    if (isRemembered) {
+      storage.set("user", userData);
+    } else {
+      storage.set("sessionUser", userData);
+    }
   };
 
   return (

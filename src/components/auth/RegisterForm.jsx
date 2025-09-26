@@ -19,6 +19,7 @@ function RegisterForm() {
     email: "",
     password: "",
     confirmPassword: "",
+    agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -35,11 +36,16 @@ function RegisterForm() {
       return;
     }
 
+    if (!formData.agreeToTerms) {
+      setError("You must agree to the Terms and Privacy Policy to continue");
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
     try {
-      const { confirmPassword, ...registerData } = formData;
+      const { confirmPassword, agreeToTerms, ...registerData } = formData;
       const response = await auth.register(registerData);
       login(response.data.user, response.data.token);
       navigate("/");
@@ -51,7 +57,11 @@ function RegisterForm() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   return (
@@ -170,6 +180,39 @@ function RegisterForm() {
             >
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+          </div>
+        </div>
+
+        <div className="animate-slideUp stagger-5">
+          <div className="flex items-start">
+            <input
+              type="checkbox"
+              name="agreeToTerms"
+              id="agreeToTerms"
+              checked={formData.agreeToTerms}
+              onChange={handleChange}
+              className="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 focus:ring-2 transition-all duration-200 mt-1"
+              required
+            />
+            <label
+              htmlFor="agreeToTerms"
+              className="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none leading-relaxed"
+            >
+              I agree to the{" "}
+              <a
+                href="#"
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline font-medium"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="#"
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 underline font-medium"
+              >
+                Privacy Policy
+              </a>
+            </label>
           </div>
         </div>
 

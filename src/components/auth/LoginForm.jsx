@@ -6,7 +6,11 @@ import { useAuth } from "../../hooks/useAuth";
 import { auth } from "../../utils/api";
 
 function LoginForm() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,8 +23,9 @@ function LoginForm() {
     setError("");
 
     try {
-      const response = await auth.login(formData);
-      login(response.data.user, response.data.token);
+      const { rememberMe, ...loginData } = formData;
+      const response = await auth.login(loginData);
+      login(response.data.user, response.data.token, rememberMe);
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -30,7 +35,11 @@ function LoginForm() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   return (
@@ -100,6 +109,25 @@ function LoginForm() {
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+          </div>
+        </div>
+
+        <div className="animate-slideUp stagger-3">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="rememberMe"
+              id="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+              className="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 focus:ring-2 transition-all duration-200"
+            />
+            <label
+              htmlFor="rememberMe"
+              className="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none"
+            >
+              Remember me for 30 days
+            </label>
           </div>
         </div>
 

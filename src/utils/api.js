@@ -42,6 +42,9 @@ export const auth = {
       body: JSON.stringify(emailData),
     }),
 
+  validateResetToken: (token) =>
+    apiClient(`/auth/validate-reset-token/${token}`),
+
   resetPassword: (resetData) =>
     apiClient("/auth/reset-password", {
       method: "POST",

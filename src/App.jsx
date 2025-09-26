@@ -5,6 +5,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Layout>
       </AuthProvider>

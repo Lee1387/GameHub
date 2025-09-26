@@ -87,6 +87,31 @@ router.post("/forgot-password", async (req, res, next) => {
   }
 });
 
+router.get("/validate-reset-token/:token", async (req, res, next) => {
+  try {
+    const { token } = req.params;
+
+    if (!token) {
+      return error(res, "Token is required", 400);
+    }
+
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return error(res, "Token is invalid or has expired", 400);
+    }
+
+    success(res, { valid: true }, "Token is valid");
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/reset-password", async (req, res, next) => {
   try {
     const { token, password } = req.body;

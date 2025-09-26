@@ -1,5 +1,18 @@
 import { useState, useEffect, useMemo } from "react";
-import { generateParticles } from "../../utils/common";
+
+const generateRandomValue = (min, max) => min + Math.random() * (max - min);
+
+const generateParticles = (count) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    duration: generateRandomValue(15, 25),
+    size: generateRandomValue(2, 5),
+    opacity: generateRandomValue(0.3, 0.7),
+    startX: generateRandomValue(0, 100),
+    startY: generateRandomValue(0, 100),
+    animationDelay: -generateRandomValue(0, 25),
+  }));
+};
 
 function ParticleBackground({ particleCount = 50 }) {
   const [mounted, setMounted] = useState(false);

@@ -4,7 +4,18 @@ import { Menu, X } from "lucide-react";
 import Logo from "../ui/Logo";
 import Navigation from "./Navigation";
 import ThemeToggle from "../ui/ThemeToggle";
-import { debounce } from "../../utils/common";
+
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -1,5 +1,6 @@
 import { Shield, Trophy, Zap, Users, Brain, Globe } from "lucide-react";
-import { getStaggerDelay } from "../../utils/common";
+
+const getStaggerDelay = (index) => `${index * 0.1}s`;
 
 function Features() {
   const features = [

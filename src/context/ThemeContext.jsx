@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { getStoredTheme, setStoredTheme, applyTheme } from "../utils/common";
+import { getStoredTheme, setStoredTheme, applyTheme } from "../hooks/useTheme";
 
 export const ThemeContext = createContext();
 

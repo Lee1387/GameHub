@@ -1,5 +1,38 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { generateBubbles, updateBubblePosition } from "../../utils/common";
+
+const generateRandomValue = (min, max) => min + Math.random() * (max - min);
+
+const generateBubbles = (count, width, height) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: generateRandomValue(50, width - 50),
+    y: generateRandomValue(50, height - 50),
+    vx: generateRandomValue(-2, 2),
+    vy: generateRandomValue(-2, 2),
+    size: generateRandomValue(40, 80),
+    hue: generateRandomValue(0, 360),
+    opacity: generateRandomValue(0.3, 0.7),
+  }));
+};
+
+const updateBubblePosition = (bubble, containerWidth, containerHeight) => {
+  let { x, y, vx, vy, size } = bubble;
+  const radius = size / 2;
+
+  x += vx;
+  y += vy;
+
+  if (x - radius <= 0 || x + radius >= containerWidth) {
+    vx = -vx;
+    x = x - radius <= 0 ? radius : containerWidth - radius;
+  }
+  if (y - radius <= 0 || y + radius >= containerHeight) {
+    vy = -vy;
+    y = y - radius <= 0 ? radius : containerHeight - radius;
+  }
+
+  return { ...bubble, x, y, vx, vy };
+};
 
 function AnimatedBackground() {
   const [mounted, setMounted] = useState(false);

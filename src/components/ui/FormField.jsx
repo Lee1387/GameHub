@@ -30,8 +30,8 @@ const FormField = forwardRef(
         <div className="relative">
           {Icon && (
             <Icon
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
+              className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={18}
             />
           )}
           <input
@@ -40,7 +40,7 @@ const FormField = forwardRef(
             name={name}
             value={value}
             onChange={onChange}
-            className="w-full pl-12 pr-12 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
+            className="w-full pl-10 md:pl-12 pr-10 md:pr-12 py-3 md:py-4 border border-gray-200 dark:border-gray-700 rounded-lg md:rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 text-sm md:text-base"
             placeholder={placeholder}
             required={required}
             {...props}
@@ -49,7 +49,7 @@ const FormField = forwardRef(
             <button
               type="button"
               onClick={onToggle}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-sm"
             >
               {showValue ? "Hide" : "Show"}
             </button>

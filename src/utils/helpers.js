@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 export const debounce = (func, wait) => {
   let timeout;
   return (...args) => {
@@ -81,4 +84,24 @@ export const calculatePasswordStrength = (password) => {
     feedback,
     percentage: Math.min((score / 6) * 100, 100),
   };
+};
+
+export const useScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+};
+
+export const useBodyScrollLock = (isLocked) => {
+  useEffect(() => {
+    if (isLocked) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [isLocked]);
 };

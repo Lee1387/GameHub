@@ -1,5 +1,5 @@
-import { useState, useCallback, memo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useCallback, memo, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Logo, ThemeToggle } from "../ui";
 import Navigation from "./Navigation";
@@ -7,11 +7,16 @@ import { debounce } from "../../utils/helpers";
 
 const Header = memo(() => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const debouncedToggle = useCallback(
     debounce(() => setMobileMenuOpen((prev) => !prev), 150),
     []
   );
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-100 dark:border-gray-800 sticky top-0 z-50">

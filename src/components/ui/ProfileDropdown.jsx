@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Settings, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -8,6 +8,7 @@ const ProfileDropdown = memo(() => {
   const dropdownRef = useRef(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -30,6 +31,10 @@ const ProfileDropdown = memo(() => {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   const getInitials = (name) => {
     return (
@@ -55,6 +60,11 @@ const ProfileDropdown = memo(() => {
 
   const handleSettingsClick = () => {
     navigate("/settings");
+    setIsOpen(false);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
     setIsOpen(false);
   };
 
@@ -123,10 +133,7 @@ const ProfileDropdown = memo(() => {
               </button>
 
               <button
-                onClick={() => {
-                  logout();
-                  setIsOpen(false);
-                }}
+                onClick={handleLogoutClick}
                 className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 transition-all duration-200 font-medium"
               >
                 <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center flex-shrink-0">

@@ -2,12 +2,15 @@ import { useState } from "react";
 import { X, Mail, Check } from "lucide-react";
 import { LoadingSpinner, FormField } from "../ui";
 import { authAPI } from "../../utils/api";
+import { useBodyScrollLock } from "../../utils/helpers";
 
 function ForgotPasswordModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  useBodyScrollLock(isOpen);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

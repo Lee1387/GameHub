@@ -63,7 +63,7 @@ function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`card animate-slideUp hover:rotate-1 transition-transform duration-300`}
+              className="card animate-slideUp hover:rotate-1 transition-transform duration-300"
               style={{ animationDelay: getStaggerDelay(index % 3) }}
             >
               <div

@@ -26,12 +26,6 @@ export default {
           600: "#0891b2",
         },
       },
-      animation: {
-        fadeIn: "fadeIn 0.8s ease-out forwards",
-        slideUp: "slideUp 0.6s ease-out forwards",
-        slideDown: "slideDown 0.6s ease-out forwards",
-        float: "float 3s ease-in-out infinite",
-      },
     },
   },
   plugins: [],

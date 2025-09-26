@@ -1,7 +1,3 @@
-export const classNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
-
 export const getStaggerDelay = (index) => `${index * 0.1}s`;
 
 export const formatNumber = (num) => {

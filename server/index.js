@@ -7,7 +7,7 @@ import connectDB from "./config/database.js";
 import healthRoutes from "./routes/health.js";
 import authRoutes from "./routes/auth.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
-import { securityHeaders, generalRateLimit } from "./middleware/security.js";
+import { securityHeaders, apiRateLimit } from "./middleware/security.js";
 import { requestLogger } from "./middleware/logger.js";
 
 dotenv.config();
@@ -35,7 +35,6 @@ app.set("trust proxy", 1);
 
 app.use(compression());
 app.use(securityHeaders);
-app.use(generalRateLimit);
 app.use(requestLogger);
 
 app.use(
@@ -56,6 +55,9 @@ app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 connectDB();
 
 app.use("/api/health", healthRoutes);
+
+app.use("/api", apiRateLimit);
+
 app.use("/api/auth", authRoutes);
 
 app.use(notFound);

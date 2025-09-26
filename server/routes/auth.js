@@ -5,7 +5,12 @@ import { generateToken } from "../utils/jwt.js";
 import { success, error } from "../utils/response.js";
 import { sendPasswordResetEmail } from "../utils/email.js";
 import { authenticate } from "../middleware/auth.js";
-import { authRateLimit, validateInput } from "../middleware/security.js";
+import {
+  authRateLimit,
+  validateInput,
+  strictRateLimit,
+  userRateLimit,
+} from "../middleware/security.js";
 import {
   validateRegister,
   validateLogin,
@@ -66,24 +71,29 @@ router.post("/login", validateLogin, async (req, res, next) => {
   }
 });
 
-router.post("/forgot-password", validateEmail, async (req, res, next) => {
-  try {
-    const { email } = req.body;
+router.post(
+  "/forgot-password",
+  strictRateLimit,
+  validateEmail,
+  async (req, res, next) => {
+    try {
+      const { email } = req.body;
 
-    const user = await User.findOne({ email, isActive: true });
-    if (!user) {
-      return success(res, null, MESSAGES.PASSWORD_RESET_SENT);
+      const user = await User.findOne({ email, isActive: true });
+      if (!user) {
+        return success(res, null, MESSAGES.PASSWORD_RESET_SENT);
+      }
+
+      const resetToken = user.createPasswordResetToken();
+      await user.save({ validateBeforeSave: false });
+      await sendPasswordResetEmail(email, resetToken);
+
+      success(res, null, MESSAGES.PASSWORD_RESET_SENT);
+    } catch (err) {
+      next(err);
     }
-
-    const resetToken = user.createPasswordResetToken();
-    await user.save({ validateBeforeSave: false });
-    await sendPasswordResetEmail(email, resetToken);
-
-    success(res, null, MESSAGES.PASSWORD_RESET_SENT);
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 router.get("/validate-reset-token/:token", async (req, res, next) => {
   try {
@@ -115,6 +125,7 @@ router.get("/validate-reset-token/:token", async (req, res, next) => {
 
 router.post(
   "/reset-password",
+  strictRateLimit,
   validateResetPassword,
   async (req, res, next) => {
     try {
@@ -150,7 +161,7 @@ router.post(
   }
 );
 
-router.get("/me", authenticate, async (req, res) => {
+router.get("/me", authenticate, userRateLimit, async (req, res) => {
   success(res, req.user, "Profile retrieved successfully");
 });
 

@@ -22,8 +22,31 @@ export const authRateLimit = rateLimit({
   legacyHeaders: false,
 });
 
-export const generalRateLimit = rateLimit({
+export const apiRateLimit = rateLimit({
   ...RATE_LIMITS.GENERAL,
+  message: { success: false, message: MESSAGES.RATE_LIMIT_EXCEEDED },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => {
+    return req.path === "/health" || req.path === "/api/health";
+  },
+});
+
+export const userRateLimit = rateLimit({
+  ...RATE_LIMITS.USER_AUTHENTICATED,
+  keyGenerator: (req, res) => {
+    if (req.user?.id) {
+      return `user:${req.user.id}`;
+    }
+    return undefined;
+  },
+  message: { success: false, message: MESSAGES.RATE_LIMIT_EXCEEDED },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const strictRateLimit = rateLimit({
+  ...RATE_LIMITS.STRICT,
   message: { success: false, message: MESSAGES.RATE_LIMIT_EXCEEDED },
   standardHeaders: true,
   legacyHeaders: false,

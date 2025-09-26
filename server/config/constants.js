@@ -46,6 +46,31 @@ export const MESSAGES = {
 };
 
 export const RATE_LIMITS = {
-  AUTH: { windowMs: 15 * 60 * 1000, max: 15 },
-  GENERAL: { windowMs: 15 * 60 * 1000, max: 200 },
+  AUTH: {
+    windowMs: 15 * 60 * 1000,
+    max: 15,
+    skipSuccessfulRequests: false,
+    skipFailedRequests: false,
+  },
+
+  GENERAL: {
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    skipSuccessfulRequests: false,
+    skipFailedRequests: false,
+  },
+
+  USER_AUTHENTICATED: {
+    windowMs: 15 * 60 * 1000,
+    max: 500,
+    skipSuccessfulRequests: true,
+    skipFailedRequests: false,
+  },
+
+  STRICT: {
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    skipSuccessfulRequests: false,
+    skipFailedRequests: false,
+  },
 };

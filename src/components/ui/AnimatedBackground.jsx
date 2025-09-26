@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-
-const generateRandomValue = (min, max) => min + Math.random() * (max - min);
+import { generateRandomValue } from "../../utils/math";
 
 const generateBubbles = (count, width, height) => {
   return Array.from({ length: count }, (_, i) => ({

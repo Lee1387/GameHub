@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-
-const generateRandomValue = (min, max) => min + Math.random() * (max - min);
+import { generateRandomValue } from "../../utils/math";
 
 const generateParticles = (count) => {
   return Array.from({ length: count }, (_, i) => ({

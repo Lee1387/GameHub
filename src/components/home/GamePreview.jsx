@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import { Grid3X3, Circle, Zap, ArrowRight } from "lucide-react";
-
-const formatNumber = (num) => {
-  if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
-  return num.toString();
-};
+import { formatNumber } from "../../utils/format";
 
 function GamePreview() {
   const games = [

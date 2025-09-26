@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { Play, UserPlus, Sparkles } from "lucide-react";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import ParticleBackground from "./ParticleBackground";
+import { useAuth } from "../../hooks/useAuth";
 
 function Hero() {
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const handlePlayClick = (e) => {
     e.preventDefault();
@@ -43,7 +45,11 @@ function Hero() {
             our collection of reimagined timeless games.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div
+            className={`flex ${
+              isAuthenticated ? "justify-center" : "flex-col sm:flex-row"
+            } gap-6 justify-center`}
+          >
             <button
               onClick={handlePlayClick}
               className="btn-primary flex items-center gap-3 justify-center text-lg"
@@ -56,13 +62,15 @@ function Hero() {
               Start Playing Now
             </button>
 
-            <Link
-              to="/register"
-              className="btn-secondary flex items-center gap-3 justify-center text-lg"
-            >
-              <UserPlus size={24} />
-              Create Account
-            </Link>
+            {!isAuthenticated && (
+              <Link
+                to="/register"
+                className="btn-secondary flex items-center gap-3 justify-center text-lg"
+              >
+                <UserPlus size={24} />
+                Create Account
+              </Link>
+            )}
           </div>
         </div>
       </div>

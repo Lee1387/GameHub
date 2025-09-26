@@ -36,6 +36,18 @@ export const auth = {
       body: JSON.stringify(credentials),
     }),
 
+  forgotPassword: (emailData) =>
+    apiClient("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify(emailData),
+    }),
+
+  resetPassword: (resetData) =>
+    apiClient("/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify(resetData),
+    }),
+
   getProfile: () => apiClient("/auth/me"),
 
   updateProfile: (userData) =>

@@ -2,7 +2,7 @@ import { Gamepad2, Github } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16">
+    <footer className="bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-2">
@@ -12,7 +12,7 @@ function Footer() {
               </div>
               <span className="text-2xl font-display font-bold">GameHub</span>
             </div>
-            <p className="text-gray-300 leading-relaxed mb-6">
+            <p className="text-gray-300 dark:text-gray-400 leading-relaxed mb-6">
               The ultimate destination for classic games with modern technology.
               Challenge AI, compete globally, and experience gaming like never
               before.
@@ -22,7 +22,7 @@ function Footer() {
                 href="https://github.com/Lee1387"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors cursor-pointer hover:scale-110 transform"
+                className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer hover:scale-110 transform"
               >
                 <Github size={24} />
               </a>
@@ -35,7 +35,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   Tic Tac Toe
                 </a>
@@ -43,7 +43,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   Connect 4
                 </a>
@@ -51,7 +51,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   Pong
                 </a>
@@ -65,7 +65,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   About Us
                 </a>
@@ -73,7 +73,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   Privacy Policy
                 </a>
@@ -81,7 +81,7 @@ function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
                 >
                   Terms of Service
                 </a>
@@ -90,8 +90,8 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-8 text-center">
-          <p className="text-gray-400">
+        <div className="border-t border-gray-700 dark:border-gray-800 pt-8 text-center">
+          <p className="text-gray-400 dark:text-gray-500">
             © 2025 GameHub. Built for gaming enthusiasts with ❤️
           </p>
         </div>

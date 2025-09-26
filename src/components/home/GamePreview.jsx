@@ -31,13 +31,13 @@ function GamePreview() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50 relative">
+    <section className="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 relative">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-20 animate-fadeIn">
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-6">
             Featured <span className="text-gradient">Games</span>
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-600 dark:text-gray-300">
             Choose from our collection of enhanced classic games
           </p>
         </div>
@@ -54,16 +54,16 @@ function GamePreview() {
                 <game.icon className="text-white" size={36} />
               </div>
 
-              <h3 className="text-2xl font-display font-semibold mb-4 text-center">
+              <h3 className="text-2xl font-display font-semibold mb-4 text-center text-gray-900 dark:text-white">
                 {game.name}
               </h3>
 
-              <p className="text-gray-600 text-center mb-6 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 text-center mb-6 leading-relaxed">
                 {game.description}
               </p>
 
               <div className="text-center mb-6">
-                <span className="bg-primary-50 text-primary-600 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-3 py-1 rounded-full text-sm font-medium">
                   {formatNumber(game.players)}+ playing now
                 </span>
               </div>

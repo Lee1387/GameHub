@@ -6,9 +6,9 @@ function LoadingSpinner({ size = "md", color = "primary" }) {
   };
 
   const colorClasses = {
-    primary: "border-blue-600",
+    primary: "border-blue-600 dark:border-blue-400",
     white: "border-white",
-    gray: "border-gray-600",
+    gray: "border-gray-600 dark:border-gray-400",
   };
 
   return (

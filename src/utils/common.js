@@ -31,3 +31,22 @@ export const generateParticles = (count) => {
     animationDelay: -generateRandomValue(0, 25),
   }));
 };
+
+export const getStoredTheme = () => {
+  if (typeof window === "undefined") return "dark";
+  return localStorage.getItem("theme") || "dark";
+};
+
+export const setStoredTheme = (theme) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("theme", theme);
+  }
+};
+
+export const applyTheme = (theme) => {
+  if (typeof document !== "undefined") {
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }
+};

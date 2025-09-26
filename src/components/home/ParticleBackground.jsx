@@ -20,7 +20,7 @@ function ParticleBackground({ particleCount = 50 }) {
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-particle-float"
+          className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-500 rounded-full animate-particle-float"
           style={{
             left: `${particle.startX}%`,
             top: `${particle.startY}%`,

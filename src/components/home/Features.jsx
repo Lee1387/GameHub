@@ -42,19 +42,19 @@ function Features() {
       icon: Globe,
       title: "Cross Platform",
       description:
-        "Play anywhere, anytime on any device with full synchronization.",
+        "Play anywhere, anytime on any device with full synchronisation.",
       gradient: "from-red-500 to-rose-500",
     },
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="text-center mb-20 animate-fadeIn">
-          <h2 className="text-5xl font-display font-bold text-gray-900 mb-6">
+          <h2 className="text-5xl font-display font-bold text-gray-900 dark:text-white mb-6">
             Why Choose <span className="text-gradient">GameHub</span>?
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Built with modern technology for the ultimate gaming experience
           </p>
         </div>
@@ -71,10 +71,10 @@ function Features() {
               >
                 <feature.icon className="text-white" size={32} />
               </div>
-              <h3 className="text-2xl font-display font-semibold mb-4 text-center">
+              <h3 className="text-2xl font-display font-semibold mb-4 text-center text-gray-900 dark:text-white">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed text-center">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-center">
                 {feature.description}
               </p>
             </div>

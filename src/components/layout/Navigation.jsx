@@ -7,8 +7,8 @@ function Navigation({ mobile = false, onItemClick }) {
     : "flex items-center space-x-8 animate-slideDown";
 
   const linkClasses = mobile
-    ? "text-gray-600 hover:text-primary-600 font-semibold transition-colors duration-200 flex items-center gap-2 py-2"
-    : "text-gray-600 hover:text-primary-600 font-semibold transition-colors duration-200 flex items-center gap-2 hover:scale-105 transform";
+    ? "text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-semibold transition-colors duration-200 flex items-center gap-2 py-2"
+    : "text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-semibold transition-colors duration-200 flex items-center gap-2 hover:scale-105 transform";
 
   const buttonClasses = mobile
     ? "btn-primary flex items-center gap-2 justify-center w-full"

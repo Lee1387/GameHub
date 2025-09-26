@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { AUTH_CONSTANTS } from "../config/constants.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,8 +10,8 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      minlength: 3,
-      maxlength: 20,
+      minlength: AUTH_CONSTANTS.MIN_USERNAME_LENGTH,
+      maxlength: AUTH_CONSTANTS.MAX_USERNAME_LENGTH,
     },
     email: {
       type: String,
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      minlength: AUTH_CONSTANTS.MIN_PASSWORD_LENGTH,
     },
     isActive: {
       type: Boolean,
@@ -38,7 +39,10 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = await bcrypt.hash(
+    this.password,
+    AUTH_CONSTANTS.BCRYPT_SALT_ROUNDS
+  );
   next();
 });
 
@@ -52,7 +56,8 @@ userSchema.methods.createPasswordResetToken = function () {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
+  this.passwordResetExpires =
+    Date.now() + AUTH_CONSTANTS.RESET_TOKEN_EXPIRES_IN;
   return resetToken;
 };
 

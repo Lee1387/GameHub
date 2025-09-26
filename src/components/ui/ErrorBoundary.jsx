@@ -41,4 +41,6 @@ class ErrorBoundary extends Component {
   }
 }
 
+ErrorBoundary.displayName = "ErrorBoundary";
+
 export default ErrorBoundary;

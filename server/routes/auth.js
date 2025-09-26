@@ -17,7 +17,7 @@ import {
   validateEmail,
   validateResetPassword,
 } from "../middleware/validation.js";
-import { HTTP_STATUS, MESSAGES } from "../config/constants.js";
+import { HTTP_STATUS, MESSAGES, AUTH_CONSTANTS } from "../config/constants.js";
 
 const router = express.Router();
 
@@ -117,7 +117,7 @@ router.get("/validate-reset-token/:token", async (req, res, next) => {
       );
     }
 
-    success(res, null, "Token is valid");
+    success(res, null, MESSAGES.TOKEN_VALID);
   } catch (err) {
     next(err);
   }
@@ -161,8 +161,59 @@ router.post(
   }
 );
 
-router.get("/me", authenticate, userRateLimit, async (req, res) => {
-  success(res, req.user, "Profile retrieved successfully");
-});
+router.post(
+  "/change-password",
+  authenticate,
+  userRateLimit,
+  async (req, res, next) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return error(
+          res,
+          MESSAGES.PASSWORD_CHANGE_REQUIRED,
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+
+      if (newPassword.length < AUTH_CONSTANTS.MIN_PASSWORD_LENGTH) {
+        return error(
+          res,
+          MESSAGES.PASSWORD_MIN_LENGTH,
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+
+      const user = await User.findById(req.user._id);
+      if (!user) {
+        return error(res, MESSAGES.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED);
+      }
+
+      const isValidCurrentPassword = await user.comparePassword(
+        currentPassword
+      );
+      if (!isValidCurrentPassword) {
+        return error(
+          res,
+          MESSAGES.CURRENT_PASSWORD_INCORRECT,
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+
+      const isReused = await user.isPasswordReused(newPassword);
+      if (isReused) {
+        return error(res, MESSAGES.PASSWORD_REUSED, HTTP_STATUS.BAD_REQUEST);
+      }
+
+      user.password = newPassword;
+      await user.save();
+
+      success(res, null, MESSAGES.PASSWORD_CHANGE_SUCCESS);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default router;

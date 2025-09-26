@@ -49,5 +49,6 @@ export const authAPI = {
     apiClient.get(`/auth/validate-reset-token/${token}`),
   resetPassword: (resetData) =>
     apiClient.post("/auth/reset-password", resetData),
-  getProfile: () => apiClient.get("/auth/me"),
+  changePassword: (passwordData) =>
+    apiClient.post("/auth/change-password", passwordData),
 };

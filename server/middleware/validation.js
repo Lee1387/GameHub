@@ -22,17 +22,13 @@ export const validateRegister = (req, res, next) => {
   ) {
     return error(
       res,
-      `Username must be between ${AUTH_CONSTANTS.MIN_USERNAME_LENGTH} and ${AUTH_CONSTANTS.MAX_USERNAME_LENGTH} characters`,
+      MESSAGES.USERNAME_LENGTH_INVALID,
       HTTP_STATUS.BAD_REQUEST
     );
   }
 
   if (!emailRegex.test(email)) {
-    return error(
-      res,
-      "Please provide a valid email address",
-      HTTP_STATUS.BAD_REQUEST
-    );
+    return error(res, MESSAGES.EMAIL_INVALID, HTTP_STATUS.BAD_REQUEST);
   }
 
   next();
@@ -50,11 +46,7 @@ export const validateLogin = (req, res, next) => {
   }
 
   if (!emailRegex.test(email)) {
-    return error(
-      res,
-      "Please provide a valid email address",
-      HTTP_STATUS.BAD_REQUEST
-    );
+    return error(res, MESSAGES.EMAIL_INVALID, HTTP_STATUS.BAD_REQUEST);
   }
 
   next();
@@ -68,11 +60,7 @@ export const validateEmail = (req, res, next) => {
   }
 
   if (!emailRegex.test(email)) {
-    return error(
-      res,
-      "Please provide a valid email address",
-      HTTP_STATUS.BAD_REQUEST
-    );
+    return error(res, MESSAGES.EMAIL_INVALID, HTTP_STATUS.BAD_REQUEST);
   }
 
   next();
@@ -86,7 +74,7 @@ export const validateResetPassword = async (req, res, next) => {
   }
 
   if (!password) {
-    return error(res, "New password is required", HTTP_STATUS.BAD_REQUEST);
+    return error(res, MESSAGES.PASSWORD_REQUIRED, HTTP_STATUS.BAD_REQUEST);
   }
 
   if (password.length < AUTH_CONSTANTS.MIN_PASSWORD_LENGTH) {

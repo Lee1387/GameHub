@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Shield, Trophy, Zap, Users, Brain, Globe } from "lucide-react";
 import { getStaggerDelay } from "../../utils/helpers";
 
@@ -46,7 +47,7 @@ const features = [
   },
 ];
 
-function Features() {
+const Features = memo(() => {
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -83,6 +84,8 @@ function Features() {
       </div>
     </section>
   );
-}
+});
+
+Features.displayName = "Features";
 
 export default Features;

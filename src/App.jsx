@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -34,6 +35,14 @@ function App() {
                 }
               />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Layout>
         </AuthProvider>

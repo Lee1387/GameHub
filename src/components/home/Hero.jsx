@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { Play, UserPlus, Sparkles } from "lucide-react";
 import { LoadingSpinner, ParticleBackground } from "../ui";
 import { useAuth } from "../../context/AuthContext";
 
-function Hero() {
+const Hero = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const { isAuthenticated } = useAuth();
 
@@ -81,6 +81,8 @@ function Hero() {
       </div>
     </section>
   );
-}
+});
+
+Hero.displayName = "Hero";
 
 export default Hero;

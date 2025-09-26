@@ -1,11 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Settings, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
-function ProfileDropdown() {
+const ProfileDropdown = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,6 +51,11 @@ function ProfileDropdown() {
       return `${localPart.slice(0, maxLength - 8)}...@${domain}`;
     }
     return email;
+  };
+
+  const handleSettingsClick = () => {
+    navigate("/settings");
+    setIsOpen(false);
   };
 
   return (
@@ -103,7 +110,7 @@ function ProfileDropdown() {
 
             <div className="py-2">
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={handleSettingsClick}
                 className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-3 transition-all duration-200 font-medium"
               >
                 <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -136,6 +143,8 @@ function ProfileDropdown() {
       )}
     </div>
   );
-}
+});
+
+ProfileDropdown.displayName = "ProfileDropdown";
 
 export default ProfileDropdown;

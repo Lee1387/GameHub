@@ -1,11 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Logo, ThemeToggle } from "../ui";
 import Navigation from "./Navigation";
 import { debounce } from "../../utils/helpers";
 
-function Header() {
+const Header = memo(() => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const debouncedToggle = useCallback(
@@ -49,6 +49,8 @@ function Header() {
       </nav>
     </header>
   );
-}
+});
+
+Header.displayName = "Header";
 
 export default Header;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { generateRandomValue } from "../../utils/helpers";
 
 const generateParticles = (count) => {
@@ -13,7 +13,7 @@ const generateParticles = (count) => {
   }));
 };
 
-function ParticleBackground({ particleCount = 50 }) {
+const ParticleBackground = memo(({ particleCount = 50 }) => {
   const [mounted, setMounted] = useState(false);
 
   const particles = useMemo(
@@ -46,6 +46,8 @@ function ParticleBackground({ particleCount = 50 }) {
       ))}
     </div>
   );
-}
+});
+
+ParticleBackground.displayName = "ParticleBackground";
 
 export default ParticleBackground;

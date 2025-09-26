@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X, Mail, Check } from "lucide-react";
-import LoadingSpinner from "../ui/LoadingSpinner";
-import { auth } from "../../utils/api";
+import { LoadingSpinner, FormField } from "../ui";
+import { authAPI } from "../../utils/api";
 
 function ForgotPasswordModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ function ForgotPasswordModal({ isOpen, onClose }) {
     setError("");
 
     try {
-      await auth.forgotPassword({ email });
+      await authAPI.forgotPassword({ email });
       setIsSuccess(true);
     } catch (err) {
       setError(err.message);
@@ -86,25 +86,15 @@ function ForgotPasswordModal({ isOpen, onClose }) {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-                      size={20}
-                    />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-                </div>
+                <FormField
+                  label="Email Address"
+                  icon={Mail}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
 
                 <div className="flex gap-3">
                   <button

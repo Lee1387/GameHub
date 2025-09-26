@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { Gamepad2 } from "lucide-react";
 
-function Logo() {
+const Logo = memo(() => {
   return (
     <div className="flex items-center gap-4 group">
       <div className="bg-gradient-to-r from-primary-600 to-accent-500 p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 animate-glow">
@@ -14,6 +15,8 @@ function Logo() {
       </span>
     </div>
   );
-}
+});
+
+Logo.displayName = "Logo";
 
 export default Logo;

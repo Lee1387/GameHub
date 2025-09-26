@@ -1,5 +1,5 @@
-import AnimatedBackground from "../components/ui/AnimatedBackground";
-import LoginForm from "../components/auth/LoginForm";
+import { AnimatedBackground } from "../components/ui";
+import { LoginForm } from "../components/auth";
 
 function Login() {
   return (

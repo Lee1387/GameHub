@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { generateRandomValue } from "../../utils/math";
+import { generateRandomValue } from "../../utils/helpers";
 
 const generateParticles = (count) => {
   return Array.from({ length: count }, (_, i) => ({

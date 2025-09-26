@@ -1,8 +1,15 @@
-import { createContext, useState, useEffect } from "react";
-import { storage } from "../utils/localStorage";
-import { applyTheme } from "../hooks/useTheme";
+import { createContext, useState, useEffect, useContext } from "react";
+import { storage } from "../utils/helpers";
 
-export const ThemeContext = createContext();
+const ThemeContext = createContext();
+
+const applyTheme = (theme) => {
+  if (typeof document !== "undefined") {
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }
+};
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("dark");
@@ -26,3 +33,11 @@ export function ThemeProvider({ children }) {
     </ThemeContext.Provider>
   );
 }
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within ThemeProvider");
+  }
+  return context;
+};

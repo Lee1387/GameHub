@@ -1,18 +1,15 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Logo from "../ui/Logo";
+import { Logo, ThemeToggle } from "../ui";
 import Navigation from "./Navigation";
-import ThemeToggle from "../ui/ThemeToggle";
-import { debounce } from "../../utils/performance";
+import { debounce } from "../../utils/helpers";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const debouncedToggle = useCallback(
-    debounce(() => {
-      setMobileMenuOpen((prev) => !prev);
-    }, 150),
+    debounce(() => setMobileMenuOpen((prev) => !prev), 150),
     []
   );
 

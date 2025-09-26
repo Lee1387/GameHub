@@ -1,5 +1,5 @@
-import AnimatedBackground from "../components/ui/AnimatedBackground";
-import RegisterForm from "../components/auth/RegisterForm";
+import { AnimatedBackground } from "../components/ui";
+import { RegisterForm } from "../components/auth";
 
 function Register() {
   return (

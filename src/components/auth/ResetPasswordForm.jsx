@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Lock, Shield, ArrowRight } from "lucide-react";
-import LoadingSpinner from "../ui/LoadingSpinner";
-import { useAuth } from "../../hooks/useAuth";
-import { auth } from "../../utils/api";
+import { Lock, Shield, ArrowRight } from "lucide-react";
+import { LoadingSpinner, FormField } from "../ui";
+import { useAuth } from "../../context/AuthContext";
+import { authAPI } from "../../utils/api";
 
 function ResetPasswordForm({ token }) {
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ function ResetPasswordForm({ token }) {
     setError("");
 
     try {
-      const response = await auth.resetPassword({
+      const response = await authAPI.resetPassword({
         token,
         password: formData.password,
       });
@@ -49,10 +49,10 @@ function ResetPasswordForm({ token }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   return (
@@ -76,61 +76,33 @@ function ResetPasswordForm({ token }) {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="animate-slideUp stagger-1">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            New Password
-          </label>
-          <div className="relative">
-            <Lock
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full pl-12 pr-12 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Enter your new password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-        </div>
+        <FormField
+          label="New Password"
+          icon={Lock}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter your new password"
+          required
+          showToggle
+          showValue={showPassword}
+          onToggle={() => setShowPassword(!showPassword)}
+          className="animate-slideUp stagger-1"
+        />
 
-        <div className="animate-slideUp stagger-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Confirm New Password
-          </label>
-          <div className="relative">
-            <Lock
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full pl-12 pr-12 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Confirm your new password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            >
-              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-        </div>
+        <FormField
+          label="Confirm New Password"
+          icon={Lock}
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          placeholder="Confirm your new password"
+          required
+          showToggle
+          showValue={showConfirmPassword}
+          onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
+          className="animate-slideUp stagger-2"
+        />
 
         <button
           type="submit"

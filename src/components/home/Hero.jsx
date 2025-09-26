@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Play, UserPlus, Sparkles } from "lucide-react";
-import LoadingSpinner from "../ui/LoadingSpinner";
-import ParticleBackground from "./ParticleBackground";
-import { useAuth } from "../../hooks/useAuth";
+import { LoadingSpinner, ParticleBackground } from "../ui";
+import { useAuth } from "../../context/AuthContext";
 
 function Hero() {
   const [isLoading, setIsLoading] = useState(false);

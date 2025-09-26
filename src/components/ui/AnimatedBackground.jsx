@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { generateRandomValue } from "../../utils/math";
+import { useState, useEffect, useRef, useMemo, memo } from "react";
+import { generateRandomValue } from "../../utils/helpers";
 
 const generateBubbles = (count, width, height) => {
   return Array.from({ length: count }, (_, i) => ({
@@ -14,26 +14,7 @@ const generateBubbles = (count, width, height) => {
   }));
 };
 
-const updateBubblePosition = (bubble, containerWidth, containerHeight) => {
-  let { x, y, vx, vy, size } = bubble;
-  const radius = size / 2;
-
-  x += vx;
-  y += vy;
-
-  if (x - radius <= 0 || x + radius >= containerWidth) {
-    vx = -vx;
-    x = x - radius <= 0 ? radius : containerWidth - radius;
-  }
-  if (y - radius <= 0 || y + radius >= containerHeight) {
-    vy = -vy;
-    y = y - radius <= 0 ? radius : containerHeight - radius;
-  }
-
-  return { ...bubble, x, y, vx, vy };
-};
-
-function AnimatedBackground() {
+const AnimatedBackground = memo(() => {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef(null);
   const animationRef = useRef();
@@ -45,9 +26,24 @@ function AnimatedBackground() {
     if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-    bubblesRef.current = bubblesRef.current.map((bubble) =>
-      updateBubblePosition(bubble, rect.width, rect.height)
-    );
+    bubblesRef.current = bubblesRef.current.map((bubble) => {
+      let { x, y, vx, vy, size } = bubble;
+      const radius = size / 2;
+
+      x += vx;
+      y += vy;
+
+      if (x - radius <= 0 || x + radius >= rect.width) {
+        vx = -vx;
+        x = x - radius <= 0 ? radius : rect.width - radius;
+      }
+      if (y - radius <= 0 || y + radius >= rect.height) {
+        vy = -vy;
+        y = y - radius <= 0 ? radius : rect.height - radius;
+      }
+
+      return { ...bubble, x, y, vx, vy };
+    });
 
     bubblesRef.current.forEach((bubble, index) => {
       const element = containerRef.current?.children[index];
@@ -61,12 +57,6 @@ function AnimatedBackground() {
     animationRef.current = requestAnimationFrame(animate);
   };
 
-  const handleResize = () => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    bubblesRef.current = generateBubbles(bubbleCount, rect.width, rect.height);
-  };
-
   useEffect(() => {
     if (!mounted) return;
 
@@ -75,8 +65,18 @@ function AnimatedBackground() {
 
     const rect = container.getBoundingClientRect();
     bubblesRef.current = generateBubbles(bubbleCount, rect.width, rect.height);
-
     animationRef.current = requestAnimationFrame(animate);
+
+    const handleResize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        bubblesRef.current = generateBubbles(
+          bubbleCount,
+          rect.width,
+          rect.height
+        );
+      }
+    };
 
     window.addEventListener("resize", handleResize);
 
@@ -125,10 +125,11 @@ function AnimatedBackground() {
           }}
         />
       ))}
-
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-cyan-500/5 dark:from-blue-400/3 dark:via-purple-400/3 dark:to-cyan-400/3" />
     </div>
   );
-}
+});
+
+AnimatedBackground.displayName = "AnimatedBackground";
 
 export default AnimatedBackground;

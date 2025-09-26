@@ -1,6 +1,20 @@
+import { memo } from "react";
 import { Gamepad2, Github } from "lucide-react";
 
-function Footer() {
+const footerLinks = {
+  games: [
+    { name: "Tic Tac Toe", href: "#" },
+    { name: "Connect 4", href: "#" },
+    { name: "Pong", href: "#" },
+  ],
+  company: [
+    { name: "About Us", href: "#" },
+    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "#" },
+  ],
+};
+
+const Footer = memo(() => {
   return (
     <footer className="bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4">
@@ -32,60 +46,32 @@ function Footer() {
           <div>
             <h3 className="font-display font-semibold text-lg mb-6">Games</h3>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  Tic Tac Toe
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  Connect 4
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  Pong
-                </a>
-              </li>
+              {footerLinks.games.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="font-display font-semibold text-lg mb-6">Company</h3>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
-                >
-                  Terms of Service
-                </a>
-              </li>
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className="text-gray-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -98,6 +84,8 @@ function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;

@@ -1,17 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  UserPlus,
-  ArrowRight,
-} from "lucide-react";
-import LoadingSpinner from "../ui/LoadingSpinner";
-import { useAuth } from "../../hooks/useAuth";
-import { auth } from "../../utils/api";
+import { Mail, Lock, User, UserPlus, ArrowRight } from "lucide-react";
+import { LoadingSpinner, FormField } from "../ui";
+import { useAuth } from "../../context/AuthContext";
+import { authAPI } from "../../utils/api";
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -46,7 +38,7 @@ function RegisterForm() {
 
     try {
       const { confirmPassword, agreeToTerms, ...registerData } = formData;
-      const response = await auth.register(registerData);
+      const response = await authAPI.register(registerData);
       login(response.data.user, response.data.token);
       navigate("/");
     } catch (err) {
@@ -58,10 +50,10 @@ function RegisterForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   return (
@@ -85,103 +77,57 @@ function RegisterForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="animate-slideUp stagger-1">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Username
-          </label>
-          <div className="relative">
-            <User
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Choose a username"
-              required
-            />
-          </div>
-        </div>
+        <FormField
+          label="Username"
+          icon={User}
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          placeholder="Choose a username"
+          required
+          className="animate-slideUp stagger-1"
+        />
 
-        <div className="animate-slideUp stagger-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Email Address
-          </label>
-          <div className="relative">
-            <Mail
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-        </div>
+        <FormField
+          label="Email Address"
+          icon={Mail}
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+          required
+          className="animate-slideUp stagger-2"
+        />
 
-        <div className="animate-slideUp stagger-3">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Password
-          </label>
-          <div className="relative">
-            <Lock
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full pl-12 pr-12 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Create a password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-        </div>
+        <FormField
+          label="Password"
+          icon={Lock}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Create a password"
+          required
+          showToggle
+          showValue={showPassword}
+          onToggle={() => setShowPassword(!showPassword)}
+          className="animate-slideUp stagger-3"
+        />
 
-        <div className="animate-slideUp stagger-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Confirm Password
-          </label>
-          <div className="relative">
-            <Lock
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full pl-12 pr-12 py-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300"
-              placeholder="Confirm your password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            >
-              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-        </div>
+        <FormField
+          label="Confirm Password"
+          icon={Lock}
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          placeholder="Confirm your password"
+          required
+          showToggle
+          showValue={showConfirmPassword}
+          onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
+          className="animate-slideUp stagger-4"
+        />
 
         <div className="animate-slideUp stagger-5">
           <div className="flex items-start">

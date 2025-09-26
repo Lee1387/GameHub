@@ -12,6 +12,7 @@ export const HTTP_STATUS = {
   CREATED: 201,
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
   TOO_MANY_REQUESTS: 429,
   INTERNAL_SERVER_ERROR: 500,
 };
@@ -38,6 +39,7 @@ export const MESSAGES = {
   VALIDATION_ERROR: "Validation Error",
   RATE_LIMIT_EXCEEDED: "Too many requests, please try again later",
   INVALID_INPUT: "Invalid input data",
+  ROUTE_NOT_FOUND: "Route not found",
 };
 
 export const RATE_LIMITS = {

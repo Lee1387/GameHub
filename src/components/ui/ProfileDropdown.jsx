@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Settings, LogOut, User, ChevronDown } from "lucide-react";
-import { useAuth } from "../../hooks/useAuth";
+import { Settings, LogOut, ChevronDown } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,22 +29,6 @@ function ProfileDropdown() {
     };
   }, []);
 
-  const handleToggle = (e) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
-
-  const handleLogout = (e) => {
-    e.stopPropagation();
-    logout();
-    setIsOpen(false);
-  };
-
-  const handleSettings = (e) => {
-    e.stopPropagation();
-    setIsOpen(false);
-  };
-
   const getInitials = (name) => {
     return (
       name
@@ -70,7 +54,7 @@ function ProfileDropdown() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        onClick={handleToggle}
+        onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 group min-w-0"
       >
         <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
@@ -119,7 +103,7 @@ function ProfileDropdown() {
 
             <div className="py-2">
               <button
-                onClick={handleSettings}
+                onClick={() => setIsOpen(false)}
                 className="w-full px-4 py-3 text-left text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-3 transition-all duration-200 font-medium"
               >
                 <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -132,7 +116,10 @@ function ProfileDropdown() {
               </button>
 
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  logout();
+                  setIsOpen(false);
+                }}
                 className="w-full px-4 py-3 text-left text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 transition-all duration-200 font-medium"
               >
                 <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center flex-shrink-0">

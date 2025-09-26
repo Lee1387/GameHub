@@ -1,52 +1,52 @@
 import { Shield, Trophy, Zap, Users, Brain, Globe } from "lucide-react";
-import { getStaggerDelay } from "../../utils/animations";
+import { getStaggerDelay } from "../../utils/helpers";
+
+const features = [
+  {
+    icon: Shield,
+    title: "Guest & Account Play",
+    description:
+      "Play instantly as a guest or create an account to track progress and compete in rankings.",
+    gradient: "from-blue-500 to-indigo-500",
+  },
+  {
+    icon: Brain,
+    title: "Advanced AI Opponents",
+    description:
+      "Challenge sophisticated AI that adapts to your skill level across multiple game types.",
+    gradient: "from-purple-500 to-pink-500",
+  },
+  {
+    icon: Trophy,
+    title: "Global Leaderboards",
+    description:
+      "Compete globally and see how you rank against other players in each game.",
+    gradient: "from-yellow-500 to-orange-500",
+  },
+  {
+    icon: Users,
+    title: "Multiplayer Battles",
+    description:
+      "Challenge friends and players worldwide in real-time competitive matches.",
+    gradient: "from-green-500 to-teal-500",
+  },
+  {
+    icon: Zap,
+    title: "Lightning Fast",
+    description:
+      "Experience games with ultra-low latency and seamless performance.",
+    gradient: "from-cyan-500 to-blue-500",
+  },
+  {
+    icon: Globe,
+    title: "Cross Platform",
+    description:
+      "Play anywhere, anytime on any device with full synchronisation.",
+    gradient: "from-red-500 to-rose-500",
+  },
+];
 
 function Features() {
-  const features = [
-    {
-      icon: Shield,
-      title: "Guest & Account Play",
-      description:
-        "Play instantly as a guest or create an account to track progress and compete in rankings.",
-      gradient: "from-blue-500 to-indigo-500",
-    },
-    {
-      icon: Brain,
-      title: "Advanced AI Opponents",
-      description:
-        "Challenge sophisticated AI that adapts to your skill level across multiple game types.",
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: Trophy,
-      title: "Global Leaderboards",
-      description:
-        "Compete globally and see how you rank against other players in each game.",
-      gradient: "from-yellow-500 to-orange-500",
-    },
-    {
-      icon: Users,
-      title: "Multiplayer Battles",
-      description:
-        "Challenge friends and players worldwide in real-time competitive matches.",
-      gradient: "from-green-500 to-teal-500",
-    },
-    {
-      icon: Zap,
-      title: "Lightning Fast",
-      description:
-        "Experience games with ultra-low latency and seamless performance.",
-      gradient: "from-cyan-500 to-blue-500",
-    },
-    {
-      icon: Globe,
-      title: "Cross Platform",
-      description:
-        "Play anywhere, anytime on any device with full synchronisation.",
-      gradient: "from-red-500 to-rose-500",
-    },
-  ];
-
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 relative z-10">

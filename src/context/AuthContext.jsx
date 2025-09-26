@@ -1,7 +1,13 @@
-import { createContext, useState, useEffect } from "react";
-import { storage } from "../utils/localStorage";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
+import { storage } from "../utils/helpers";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -19,55 +25,51 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const login = (userData, authToken, rememberMe = false) => {
+  const login = useCallback((userData, authToken, rememberMe = false) => {
     setUser(userData);
     setToken(authToken);
 
-    if (rememberMe) {
-      storage.set("user", userData);
-      storage.set("token", authToken);
-      storage.remove("sessionUser");
-      storage.remove("sessionToken");
-    } else {
-      storage.set("sessionUser", userData);
-      storage.set("sessionToken", authToken);
-      storage.remove("user");
-      storage.remove("token");
-    }
-  };
+    const userKey = rememberMe ? "user" : "sessionUser";
+    const tokenKey = rememberMe ? "token" : "sessionToken";
 
-  const logout = () => {
+    storage.set(userKey, userData);
+    storage.set(tokenKey, authToken);
+
+    storage.remove(rememberMe ? "sessionUser" : "user");
+    storage.remove(rememberMe ? "sessionToken" : "token");
+  }, []);
+
+  const logout = useCallback(() => {
     setUser(null);
     setToken(null);
-    storage.remove("user");
-    storage.remove("token");
-    storage.remove("sessionUser");
-    storage.remove("sessionToken");
-  };
+    ["user", "token", "sessionUser", "sessionToken"].forEach((key) =>
+      storage.remove(key)
+    );
+  }, []);
 
-  const updateUser = (userData) => {
+  const updateUser = useCallback((userData) => {
     setUser(userData);
     const isRemembered = storage.get("token");
-    if (isRemembered) {
-      storage.set("user", userData);
-    } else {
-      storage.set("sessionUser", userData);
-    }
+    storage.set(isRemembered ? "user" : "sessionUser", userData);
+  }, []);
+
+  const value = {
+    user,
+    token,
+    isLoading,
+    login,
+    logout,
+    updateUser,
+    isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        isLoading,
-        login,
-        logout,
-        updateUser,
-        isAuthenticated: !!user,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+  return context;
+};

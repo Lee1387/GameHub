@@ -1,5 +1,7 @@
 import { error } from "../utils/response.js";
 import { AUTH_CONSTANTS, HTTP_STATUS, MESSAGES } from "../config/constants.js";
+import User from "../models/User.js";
+import crypto from "crypto";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -76,7 +78,7 @@ export const validateEmail = (req, res, next) => {
   next();
 };
 
-export const validateResetPassword = (req, res, next) => {
+export const validateResetPassword = async (req, res, next) => {
   const { password, token } = req.body;
 
   if (!token) {
@@ -91,5 +93,32 @@ export const validateResetPassword = (req, res, next) => {
     return error(res, MESSAGES.PASSWORD_MIN_LENGTH, HTTP_STATUS.BAD_REQUEST);
   }
 
-  next();
+  try {
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return error(
+        res,
+        MESSAGES.TOKEN_INVALID_EXPIRED,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
+    const isReused = await user.isPasswordReused(password);
+    if (isReused) {
+      return error(res, MESSAGES.PASSWORD_REUSED, HTTP_STATUS.BAD_REQUEST);
+    }
+
+    next();
+  } catch (err) {
+    return error(
+      res,
+      MESSAGES.INTERNAL_ERROR,
+      HTTP_STATUS.INTERNAL_SERVER_ERROR
+    );
+  }
 };

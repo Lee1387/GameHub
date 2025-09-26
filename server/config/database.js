@@ -26,6 +26,9 @@ const createIndexes = async () => {
     await db.collection("users").createIndex({ username: 1 }, { unique: true });
     await db.collection("users").createIndex({ passwordResetToken: 1 });
     await db.collection("users").createIndex({ passwordResetExpires: 1 });
+    await db
+      .collection("users")
+      .createIndex({ "passwordHistory.createdAt": 1 });
   } catch (error) {
     console.error("⚠️ Index creation failed:", error.message);
   }

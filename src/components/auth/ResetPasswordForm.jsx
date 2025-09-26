@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Shield, ArrowRight } from "lucide-react";
-import { LoadingSpinner, FormField } from "../ui";
+import { LoadingSpinner, FormField, PasswordStrength } from "../ui";
 import { useAuth } from "../../context/AuthContext";
 import { authAPI } from "../../utils/api";
 
@@ -76,19 +76,21 @@ function ResetPasswordForm({ token }) {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <FormField
-          label="New Password"
-          icon={Lock}
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Enter your new password"
-          required
-          showToggle
-          showValue={showPassword}
-          onToggle={() => setShowPassword(!showPassword)}
-          className="animate-slideUp stagger-1"
-        />
+        <div className="animate-slideUp stagger-1">
+          <FormField
+            label="New Password"
+            icon={Lock}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your new password"
+            required
+            showToggle
+            showValue={showPassword}
+            onToggle={() => setShowPassword(!showPassword)}
+          />
+          <PasswordStrength password={formData.password} className="mt-3" />
+        </div>
 
         <FormField
           label="Confirm New Password"

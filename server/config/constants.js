@@ -5,6 +5,7 @@ export const AUTH_CONSTANTS = {
   JWT_EXPIRES_IN: "7d",
   RESET_TOKEN_EXPIRES_IN: 60 * 60 * 1000,
   BCRYPT_SALT_ROUNDS: 12,
+  PASSWORD_HISTORY_LIMIT: 3,
 };
 
 export const HTTP_STATUS = {
@@ -27,6 +28,8 @@ export const MESSAGES = {
   EMAIL_PASSWORD_REQUIRED: "Email and password are required",
   EMAIL_REQUIRED: "Email is required",
   PASSWORD_MIN_LENGTH: `Password must be at least ${AUTH_CONSTANTS.MIN_PASSWORD_LENGTH} characters`,
+  PASSWORD_REUSED:
+    "Cannot reuse your current password or any of your last 3 passwords",
   USER_EXISTS: "User already exists",
   INVALID_CREDENTIALS: "Invalid credentials",
   TOKEN_REQUIRED: "Token is required",
@@ -43,6 +46,6 @@ export const MESSAGES = {
 };
 
 export const RATE_LIMITS = {
-  AUTH: { windowMs: 15 * 60 * 1000, max: 5 },
-  GENERAL: { windowMs: 15 * 60 * 1000, max: 100 },
+  AUTH: { windowMs: 15 * 60 * 1000, max: 15 },
+  GENERAL: { windowMs: 15 * 60 * 1000, max: 200 },
 };

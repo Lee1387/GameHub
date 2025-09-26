@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User, UserPlus, ArrowRight } from "lucide-react";
-import { LoadingSpinner, FormField } from "../ui";
+import { LoadingSpinner, FormField, PasswordStrength } from "../ui";
 import { useAuth } from "../../context/AuthContext";
 import { authAPI } from "../../utils/api";
 
@@ -101,19 +101,21 @@ function RegisterForm() {
           className="animate-slideUp stagger-2"
         />
 
-        <FormField
-          label="Password"
-          icon={Lock}
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Create a password"
-          required
-          showToggle
-          showValue={showPassword}
-          onToggle={() => setShowPassword(!showPassword)}
-          className="animate-slideUp stagger-3"
-        />
+        <div className="animate-slideUp stagger-3">
+          <FormField
+            label="Password"
+            icon={Lock}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Create a password"
+            required
+            showToggle
+            showValue={showPassword}
+            onToggle={() => setShowPassword(!showPassword)}
+          />
+          <PasswordStrength password={formData.password} className="mt-3" />
+        </div>
 
         <FormField
           label="Confirm Password"

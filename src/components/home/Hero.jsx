@@ -57,7 +57,7 @@ function Hero() {
             </button>
 
             <Link
-              to="/login"
+              to="/register"
               className="btn-secondary flex items-center gap-3 justify-center text-lg"
             >
               <UserPlus size={24} />

@@ -1,17 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
-const getStoredTheme = () => {
-  if (typeof window === "undefined") return "dark";
-  return localStorage.getItem("theme") || "dark";
-};
-
-const setStoredTheme = (theme) => {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("theme", theme);
-  }
-};
-
 const applyTheme = (theme) => {
   if (typeof document !== "undefined") {
     const root = document.documentElement;
@@ -28,4 +17,4 @@ export const useTheme = () => {
   return context;
 };
 
-export { getStoredTheme, setStoredTheme, applyTheme };
+export { applyTheme };

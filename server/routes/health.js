@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
     status: "healthy",
     database: dbStatus,
     timestamp: new Date().toISOString(),
+    version: "1.0.0",
   });
 });
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -10,6 +10,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import LoadingSpinner from "../ui/LoadingSpinner";
+import { useAuth } from "../../hooks/useAuth";
+import { auth } from "../../utils/api";
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -21,11 +23,31 @@ function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
+    setError("");
+
+    try {
+      const { confirmPassword, ...registerData } = formData;
+      const response = await auth.register(registerData);
+      login(response.data.user, response.data.token);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -45,6 +67,12 @@ function RegisterForm() {
           Create your account and start competing
         </p>
       </div>
+
+      {error && (
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="animate-slideUp stagger-1">
@@ -145,32 +173,6 @@ function RegisterForm() {
           </div>
         </div>
 
-        <div className="animate-slideUp stagger-5">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              className="w-4 h-4 text-primary-600 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded focus:ring-primary-500 focus:ring-2"
-              required
-            />
-            <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
-              I agree to the{" "}
-              <Link
-                to="/terms"
-                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-              >
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link
-                to="/privacy"
-                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-              >
-                Privacy Policy
-              </Link>
-            </span>
-          </label>
-        </div>
-
         <button
           type="submit"
           disabled={isLoading}
@@ -197,25 +199,6 @@ function RegisterForm() {
             Sign in
           </Link>
         </p>
-      </div>
-
-      <div className="mt-6 animate-fadeIn">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200 dark:border-gray-700" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-              Or continue as guest
-            </span>
-          </div>
-        </div>
-        <Link
-          to="/games"
-          className="btn-secondary w-full mt-4 flex items-center justify-center gap-2"
-        >
-          Play as Guest
-        </Link>
       </div>
     </div>
   );

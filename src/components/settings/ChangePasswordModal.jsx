@@ -85,13 +85,13 @@ function ChangePasswordModal({ isOpen, onClose }) {
       />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="card max-w-md w-full mx-4 animate-fadeInScale max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-center mb-4 md:mb-6 sticky top-0 bg-white dark:bg-gray-800 pb-2 border-b border-gray-100 dark:border-gray-700">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
             <h2 className="text-xl md:text-2xl font-display font-bold text-gray-900 dark:text-white">
               Change Password
             </h2>
             <button
               onClick={handleClose}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
             >
               <X className="text-gray-500 dark:text-gray-400" size={20} />
             </button>
@@ -99,9 +99,9 @@ function ChangePasswordModal({ isOpen, onClose }) {
 
           {isSuccess ? (
             <div className="text-center py-6 md:py-8">
-              <div className="bg-green-100 dark:bg-green-900/30 p-3 md:p-4 rounded-2xl w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6">
+              <div className="bg-green-100 dark:bg-green-900/30 p-3 md:p-4 rounded-2xl w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center">
                 <Check
-                  className="text-green-600 dark:text-green-400 mx-auto"
+                  className="text-green-600 dark:text-green-400"
                   size={28}
                 />
               </div>
@@ -119,8 +119,8 @@ function ChangePasswordModal({ isOpen, onClose }) {
           ) : (
             <>
               <div className="text-center mb-4 md:mb-6">
-                <div className="bg-gradient-to-r from-primary-600 to-accent-500 p-3 rounded-2xl w-14 h-14 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 animate-glow">
-                  <Shield className="text-white mx-auto" size={20} />
+                <div className="bg-gradient-to-r from-primary-600 to-accent-500 p-3 rounded-2xl w-14 h-14 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 animate-glow flex items-center justify-center">
+                  <Shield className="text-white" size={20} />
                 </div>
                 <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 px-2">
                   Enter your current password and choose a new secure password.
@@ -140,7 +140,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                   name="currentPassword"
                   value={formData.currentPassword}
                   onChange={handleChange}
-                  placeholder="Enter your current password"
+                  placeholder="Current password"
                   required
                   showToggle
                   showValue={showCurrentPassword}
@@ -154,7 +154,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    placeholder="Enter your new password"
+                    placeholder="New password"
                     required
                     showToggle
                     showValue={showNewPassword}
@@ -172,7 +172,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Confirm your new password"
+                  placeholder="Confirm password"
                   required
                   showToggle
                   showValue={showConfirmPassword}

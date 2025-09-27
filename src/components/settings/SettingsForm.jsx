@@ -24,8 +24,8 @@ const SettingsForm = memo(() => {
     <>
       <div className="card animate-slideUp w-full max-w-4xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
-          <div className="bg-gradient-to-r from-primary-600 to-accent-500 p-3 md:p-4 rounded-2xl w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 animate-glow">
-            <SettingsIcon className="text-white mx-auto" size={28} />
+          <div className="bg-gradient-to-r from-primary-600 to-accent-500 p-3 md:p-4 rounded-2xl w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 animate-glow flex items-center justify-center">
+            <SettingsIcon className="text-white" size={28} />
           </div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-gray-900 dark:text-white mb-2">
             Account <span className="text-gradient">Settings</span>
